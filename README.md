@@ -19,3 +19,17 @@ Todo {
    isCompleted: Boolean
    createdAt: Date
 }
+
+## How to run project ?
+Clone the project and install the required dependencies in the gradle file
+- Spring web
+- Spring dev tools 
+- Spring JPA
+- MySQL connector
+- Lombok
+
+After that open IDE of your choice and run `SpringTodoBackendApplication` class and the server will be
+running on `PORT = 9000`
+
+You can also configure the project setting as per local system eg MySQL etc
+in the `application.properties` file
