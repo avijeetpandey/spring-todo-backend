@@ -45,6 +45,15 @@ public class ToDoController {
     }
 
     // Mapping to delete todo
+    @DeleteMapping("/{todoId}")
+    public ResponseEntity<ApiResponse> deleteTodo(@PathVariable String todoId) {
+        try {
+            ToDoDto deletedTodo = this.todoService.deleteTodo(Long.parseLong(todoId));
+            return new ApiResponseHandler<>(deletedTodo.getId()).handleSuccess();
+        } catch (Exception ex) {
+            return new ApiResponseHandler<>(ex.getMessage()).handleError();
+        }
+    }
 
     // Mapping to list all todos
     @GetMapping("/")
