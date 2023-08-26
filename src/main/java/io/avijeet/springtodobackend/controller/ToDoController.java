@@ -3,6 +3,7 @@ package io.avijeet.springtodobackend.controller;
 import io.avijeet.springtodobackend.dto.ToDoDto;
 import io.avijeet.springtodobackend.payload.ApiResponse;
 import io.avijeet.springtodobackend.services.TodoService;
+import io.avijeet.springtodobackend.utils.ApiResponseHandler;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,11 +47,7 @@ public class ToDoController {
     public ResponseEntity<ApiResponse> getAllTodos() {
         try {
             List<ToDoDto> allTodos = this.todoService.getAllTodos();
-            ApiResponse apiResponse = new ApiResponse();
-            apiResponse.setMessage("Todo created");
-            apiResponse.setError(false);
-            apiResponse.setData(allTodos);
-            return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
+            return new ApiResponseHandler<>(allTodos).handleSuccess();
         } catch (Exception ex) {
             ApiResponse errorResponse = new ApiResponse();
             errorResponse.setError(true);
