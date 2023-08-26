@@ -32,7 +32,12 @@ public class TodoServiceImpl implements TodoService  {
 
     @Override
     public ToDoDto updateTodo(ToDoDto toDoDto, long todoId) {
-        return null;
+        Todo todo = this.toDoRepo.findById(todoId)
+                .orElseThrow(()-> new ResourceNotFoundException("Todo","id",todoId));
+        todo.setCompleted(toDoDto.isCompleted());
+        todo.setTitle(toDoDto.getTitle());
+        Todo savedTodo = this.toDoRepo.save(todo);
+        return this.modelMapper.map(savedTodo, ToDoDto.class);
     }
 
     @Override

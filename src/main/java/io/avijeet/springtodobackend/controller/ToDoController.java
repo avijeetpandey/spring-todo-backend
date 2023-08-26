@@ -6,7 +6,6 @@ import io.avijeet.springtodobackend.services.TodoService;
 import io.avijeet.springtodobackend.utils.ApiResponseHandler;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +33,19 @@ public class ToDoController {
         }
     }
     // Mapping to update todo
+    @PutMapping("/{todoId}")
+    public ResponseEntity<ApiResponse> updateTodo(@PathVariable String todoId,
+                                                  @RequestBody ToDoDto toDoDto) {
+        try {
+            ToDoDto updatedTodo = this.todoService.updateTodo(toDoDto, Long.parseLong(todoId));
+            return new ApiResponseHandler<>(updatedTodo).handleSuccess();
+        } catch (Exception ex) {
+            return new ApiResponseHandler<>(ex.getMessage()).handleError();
+        }
+    }
+
     // Mapping to delete todo
+
     // Mapping to list all todos
     @GetMapping("/")
     public ResponseEntity<ApiResponse> getAllTodos() {
