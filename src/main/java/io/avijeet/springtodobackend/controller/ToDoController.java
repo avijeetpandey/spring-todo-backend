@@ -32,6 +32,7 @@ public class ToDoController {
             return new ApiResponseHandler<>(ex.getMessage()).handleError();
         }
     }
+
     // Mapping to update todo
     @PutMapping("/{todoId}")
     public ResponseEntity<ApiResponse> updateTodo(@PathVariable String todoId,
