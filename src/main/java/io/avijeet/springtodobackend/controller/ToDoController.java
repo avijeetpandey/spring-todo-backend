@@ -28,16 +28,9 @@ public class ToDoController {
     public ResponseEntity<ApiResponse> createTodo(@RequestBody ToDoDto toDoDto) {
         try {
             ToDoDto createdTodo = this.todoService.createTodo(toDoDto);
-            ApiResponse apiResponse = new ApiResponse();
-            apiResponse.setMessage("Todo created");
-            apiResponse.setError(false);
-            apiResponse.setData(createdTodo);
-            return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
-        } catch (Exception e) {
-            ApiResponse errorResponse = new ApiResponse();
-            errorResponse.setError(true);
-            errorResponse.setMessage("Oops something went wrong");
-            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ApiResponseHandler<>(createdTodo).handleSuccess();
+        } catch (Exception ex) {
+            return new ApiResponseHandler<>(ex.getMessage()).handleError();
         }
     }
     // Mapping to update todo
@@ -49,10 +42,7 @@ public class ToDoController {
             List<ToDoDto> allTodos = this.todoService.getAllTodos();
             return new ApiResponseHandler<>(allTodos).handleSuccess();
         } catch (Exception ex) {
-            ApiResponse errorResponse = new ApiResponse();
-            errorResponse.setError(true);
-            errorResponse.setMessage("Oops something went wrong");
-            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ApiResponseHandler<>(ex.getMessage()).handleError();
         }
     }
 }
