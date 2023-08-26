@@ -7,10 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -45,4 +42,20 @@ public class ToDoController {
     // Mapping to update todo
     // Mapping to delete todo
     // Mapping to list all todos
+    @GetMapping("/")
+    public ResponseEntity<ApiResponse> getAllTodos() {
+        try {
+            List<ToDoDto> allTodos = this.todoService.getAllTodos();
+            ApiResponse apiResponse = new ApiResponse();
+            apiResponse.setMessage("Todo created");
+            apiResponse.setError(false);
+            apiResponse.setData(allTodos);
+            return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
+        } catch (Exception ex) {
+            ApiResponse errorResponse = new ApiResponse();
+            errorResponse.setError(true);
+            errorResponse.setMessage("Oops something went wrong");
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
